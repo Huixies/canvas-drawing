@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./style.css">
+  <script src="//at.alicdn.com/t/font_2373873_q2qbrrae9tj.js"></script>
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="caidan">
+    <div class="btn" id="bi">
+      <svg class="icon" aria-hidden="true">
+        <use xlink:href="#icon-bi"></use>
+      </svg>
+      画笔
+    </div>
+    <div class="btn" id="juxing">
+      <svg class="icon" aria-hidden="true">
+        <use xlink:href="#icon-juxing"></use>
+      </svg>
+      矩形
+    </div>
+    <div class="btn">
+      <svg class="icon" aria-hidden="true">
+        <use xlink:href="#icon-yuan"></use>
+      </svg>
+      圆
+    </div>
+    <div class="btn">
+      <svg class="icon" aria-hidden="true">
+        <use xlink:href="#icon-cuxi"></use>
+      </svg>
+      粗细
+    </div>
+    <div class="btn">
+      <svg class="icon" aria-hidden="true">
+        <use xlink:href="#icon-yanse"></use>
+      </svg>
+      颜色
+    </div>
+  </div>
+
+  <canvas id="canvas">
+    <script>
+      let allBtn = document.querySelectorAll('.btn');
+      let canvas = document.querySelector('#canvas');
+      // console.log([canvas]);
+      let ctx = canvas.getContext('2d');
+      //自定义宽高
+      canvas.setAttribute('width',canvas.offsetWidth);
+      canvas.setAttribute('height',canvas.offsetHeight);
+
+      let huaban = {
+        type: 'none',
+        isDraw: false,
+        beginX: 0,
+        beginY: 0,
+        imageData: null,
+        //画笔实现
+        biFn: function(e){
+          let x = e.pageX - canvas.offsetLeft;
+          let y = e.pageY - canvas.offsetTop;
+          ctx.beginPath();
+          ctx.arc(x,y,3,0,2*Math.PI);
+          ctx.fill();   
+          ctx.closePath();
+        },
+        //矩形实现
+        juxingFn:function(e){
+          let x = e.pageX - canvas.offsetLeft;
+          let y = e.pageY - canvas.offsetTop;
+          ctx.clearRect(0,0,canvas.offsetWidth,canvas.offsetHeight,canvas.offsetHeight)
+          if(huaban.imageData!=null){
+            ctx.putImageData(huaban.imageData,0,0,0,0,canvas.offsetWidth,canvas.offsetHeight)
+          }
+          ctx.beginPath();
+          ctx.rect(huaban.beginX,huaban.beginY,x-huaban.beginX,y-huaban.beginY);
+          ctx.stroke(); //fill实心矩形
+          ctx.closePath();
+        }
+      }
+
+      let biBtn = document.querySelector('#bi');
+      biBtn.onclick = function(){
+        allBtn.forEach(function(item){
+          item.classList.remove('active');
+        });
+        biBtn.classList.add('active');
+        huaban.type = 'bi';
+      }
+
+      let juxingBtn = document.querySelector('#juxing');
+      juxingBtn.onclick = function(){
+        allBtn.forEach(function(item){
+          item.classList.remove('active')
+        });
+        juxingBtn.classList.add('active');
+        huaban.type = 'juxing';
+      }
+
+      //鼠标按下
+      canvas.onmousedown = function(e){
+        huaban.isDraw = true;
+        if(huaban.type == 'juxing'){
+          let x = e.pageX - canvas.offsetLeft;
+          let y = e.pageY - canvas.offsetTop;
+          huaban.beginX = x;
+          huaban.beginY = y;
+        }
+      }
+      //鼠标抬起
+      canvas.onmouseup = function(){
+        huaban.imageData = ctx.getImageData(0,0,canvas.offsetWidth,canvas.offsetHeight)
+        huaban.isDraw = false;
+      }
+      //鼠标按下移动
+      canvas.onmousemove = function(e){
+        if(huaban.isDraw){
+          let strFn = huaban.type+'Fn';
+          huaban[strFn](e);
+        }
+      }
+    </script>
+  </canvas>
+</body>
+</html>
