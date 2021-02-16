@@ -2,47 +2,73 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-size: 14px;
+  font-family: Helvetica,'PingFang SC','Microsoft Yahei',sans-serif;
 }
 
 body {
-  display: flex;
   width: 100vw;
-  height: 100vh;
-  flex-direction: column;
-  justify-content: start;
+  min-height: 100vh;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  background: rgba(67, 137, 150, 0.616);
+}
+
+input {
+  width: 40px;
+  height: 40px;
+
+  outline: none; 
+}
+
+title {
+  width: 100px;
+  height: 100px;
 }
 
 .caidan {
-  display: flex;
-  width: 100vw;
-  height: 100px;
-  justify-content: space-around;
-  align-items: center;
+  position: absolute;
+  top: 50px;
 }
 
 #canvas {
-  flex: 1;
-  width: 100vw;
+  width: 80vw;
+  height: 90vh;
+  box-shadow: 0px 0px 24px rgba(0,0,0,0.15);
+  border-radius:24px;
+  background-color: white;
 }
 
-.btn {
+.btn, .btn1 {
+  display: grid;
+  align-items: center;
+  justify-items: center;
   width: 120px;
   height: 60px;
-  border: 1px solid #999;
-  border-radius: 4px;
-  text-align: center;
-  line-height: 60px;
-  color: #999;
+  margin-bottom: 15px;
+  border: 1px solid white;
+  border-radius: 0 10px 10px 0;
+  background-color: #fff;
+  cursor:pointer;
+  box-shadow: 0px 0px 24px rgba(0,0,0,0.15);
 }
 
 .icon {
-  width: 20px;
-  height: 20px;
+  width: 40px;
+  height: 40px;
 }
 
-.btn.active {
-  width: 130px;
-  height: 70px;
+.btn.active, .btn1.active {
+  width: 150px;
   box-shadow: 0 0 10px #999;
 }
+
+.line {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
 
